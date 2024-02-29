@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	aggregate "go-ddd/internal/aggregate/driver_vehicle"
+	"go-ddd/internal/aggregate"
 	"go-ddd/internal/domain/driver"
 	driver_dto "go-ddd/internal/dtos/driver"
 	"go-ddd/internal/dtos/driver_vehicle"

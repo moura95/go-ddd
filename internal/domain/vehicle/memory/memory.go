@@ -2,7 +2,7 @@ package memory
 
 import (
 	"github.com/google/uuid"
-	"go-ddd/internal/aggregate/driver_vehicle"
+	"go-ddd/internal/aggregate"
 	"go-ddd/internal/domain/vehicle"
 	"time"
 )
@@ -11,7 +11,7 @@ type IVehicleRepositoryMock interface {
 	GetAll() ([]vehicle.Vehicle, error)
 	Create(vehicle.Vehicle) error
 	Subscribe(aggregate.DriverVehicleAggregate) error
-	UnSubscribe(aggregate.DriverVehicleAggregate) error
+	UnSubscribe(aggregate.aggregate) error
 	GetByID(uuid.UUID) (*vehicle.Vehicle, error)
 	Update(*vehicle.Vehicle) error
 	HardDelete(uuid.UUID) error
@@ -24,12 +24,12 @@ type VehicleRepositoryMemory struct {
 	vehicles []vehicle.Vehicle
 }
 
-func (v VehicleRepositoryMemory) Subscribe(aggregate.DriverVehicleAggregate) error {
+func (v VehicleRepositoryMemory) Subscribe(aggregate.aggregate) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (v VehicleRepositoryMemory) UnSubscribe(aggregate.DriverVehicleAggregate) error {
+func (v VehicleRepositoryMemory) UnSubscribe(aggregate.aggregate) error {
 	//TODO implement me
 	panic("implement me")
 }

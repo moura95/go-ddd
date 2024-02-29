@@ -3,7 +3,7 @@ package memory
 import (
 	"database/sql"
 	"github.com/google/uuid"
-	"go-ddd/internal/aggregate/driver_vehicle"
+	"go-ddd/internal/aggregate"
 	"go-ddd/internal/domain/driver"
 	"time"
 )
@@ -68,7 +68,7 @@ func (m *driverRepositoryMemory) UnDelete(u uuid.UUID) error {
 	return nil
 }
 
-func (m *driverRepositoryMemory) Subscribe(driver aggregate.DriverVehicleAggregate) error {
+func (m *driverRepositoryMemory) Subscribe(driver aggregate.aggregate) error {
 	//TODO implement me
 	panic("implement me")
 }
