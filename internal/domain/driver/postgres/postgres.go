@@ -22,11 +22,11 @@ func NewDriverRepository(db *sqlx.DB, log *zap.SugaredLogger) driver.IDriverRepo
 	return &driverRepository{db: db, logger: log}
 }
 
-func (r *driverRepository) GetAll() ([]dto.Ouput, error) {
-	var drivers []dto.Ouput
+func (r *driverRepository) GetAll() ([]dto.Output, error) {
+	var drivers []dto.Output
 	query := "SELECT * FROM drivers WHERE deleted_at is null"
 	if err := r.db.Select(&drivers, query); err != nil {
-		return []dto.Ouput{}, err
+		return []dto.Output{}, err
 	}
 	return drivers, nil
 }
@@ -83,7 +83,7 @@ func (r *driverRepository) UnSubscribe(driverVehicle driver_vehicle.Input) error
 
 func (r *driverRepository) GetByID(uid uuid.UUID) (*driver_vehicle.Output, error) {
 	var result []struct {
-		DriverUUID    uuid.UUID      `database:"uuid"`
+		DriverUUID    uuid.UUID      `database:"driver_uuid"`
 		DriverName    string         `database:"name"`
 		DriverEmail   string         `database:"email"`
 		DriverTaxID   string         `database:"tax_id"`

@@ -16,7 +16,7 @@ type IDriverService interface {
 	Create(driver driver_dto.CreateInput) error
 	Subscribe(driverVehicle driver_vehicle.Input) error
 	UnSubscribe(driverVehicle driver_vehicle.Input) error
-	List() ([]driver_dto.Ouput, error)
+	List() ([]driver_dto.Output, error)
 	GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregate, error)
 	Update(driver driver_dto.UpdateInput) error
 	SoftDelete(uid uuid.UUID) error
@@ -79,10 +79,10 @@ func (d *driverService) GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregat
 	return (*aggregate.DriverVehicleAggregate)(driverOutput), nil
 }
 
-func (d *driverService) List() ([]driver_dto.Ouput, error) {
+func (d *driverService) List() ([]driver_dto.Output, error) {
 	drivers, err := d.repository.GetAll()
 	if err != nil {
-		return []driver_dto.Ouput{}, fmt.Errorf("failed to list drivers %s", err.Error())
+		return []driver_dto.Output{}, fmt.Errorf("failed to list drivers %s", err.Error())
 	}
 	return drivers, nil
 }

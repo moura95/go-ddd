@@ -7,7 +7,7 @@ import (
 )
 
 type IDriverRepository interface {
-	GetAll() ([]driver.Ouput, error)
+	GetAll() ([]driver.Output, error)
 	Create(input driver.CreateInput) error
 	Subscribe(driver driver_vehicle.Input) error
 	UnSubscribe(vehicle driver_vehicle.Input) error

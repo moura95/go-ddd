@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type Ouput struct {
+type Output struct {
 	Uuid          uuid.UUID      `db:"uuid"`
 	Name          string         `db:"name"`
 	Email         string         `db:"email"`

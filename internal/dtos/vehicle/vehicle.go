@@ -15,7 +15,7 @@ type Output struct {
 	Color             string         `db:"color"`
 	DeletedAt         sql.NullString `db:"deleted_at"`
 	CreatedAt         time.Time      `db:"created_at"`
-	UpdatedAt         time.Time      `db:"updated_at"`
+	UpdatedAt         time.Time      `db:"update_at"`
 }
 
 type CreateInput struct {
