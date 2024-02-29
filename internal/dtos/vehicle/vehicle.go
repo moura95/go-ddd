@@ -1,4 +1,4 @@
-package dtos
+package vehicle
 
 import (
 	"database/sql"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type VehicleOutput struct {
+type Output struct {
 	Uuid              uuid.UUID      `db:"uuid"`
 	Brand             string         `db:"brand"`
 	Model             string         `db:"model"`
@@ -18,7 +18,7 @@ type VehicleOutput struct {
 	UpdatedAt         time.Time      `db:"updated_at"`
 }
 
-type VehicleCreateInput struct {
+type CreateInput struct {
 	Brand             string `db:"brand"`
 	Model             string `db:"model"`
 	YearOfManufacture uint   `db:"year_of_manufacture"`
@@ -26,7 +26,7 @@ type VehicleCreateInput struct {
 	Color             string `db:"color"`
 }
 
-type VehicleUpdateInput struct {
+type UpdateInput struct {
 	Uuid              uuid.UUID `db:"uuid"`
 	Brand             string    `db:"brand"`
 	Model             string    `db:"model"`

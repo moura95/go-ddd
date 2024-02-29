@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"go-ddd/internal/dtos"
+	"go-ddd/internal/dtos/driver"
 	"go-ddd/internal/util"
 	"net/http"
 )
@@ -33,7 +33,7 @@ func (d *Driver) update(ctx *gin.Context) {
 		return
 	}
 
-	updateDriver := dtos.DriverUpdateInput{
+	updateDriver := driver.UpdateInput{
 		Uuid:          uuid,
 		Name:          req.Name,
 		Email:         req.Email,

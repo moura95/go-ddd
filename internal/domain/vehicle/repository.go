@@ -2,13 +2,14 @@ package vehicle
 
 import (
 	"github.com/google/uuid"
+	"go-ddd/internal/dtos/vehicle"
 )
 
 type IVehicleRepository interface {
-	GetAll() ([]Vehicle, error)
-	Create(input Vehicle) error
-	GetByID(uuid.UUID) (*Vehicle, error)
-	Update(input *Vehicle) error
+	GetAll() ([]vehicle.Output, error)
+	Create(input vehicle.CreateInput) error
+	GetByID(uuid.UUID) (*vehicle.Output, error)
+	Update(input *vehicle.UpdateInput) error
 	HardDelete(uuid.UUID) error
 	SoftDelete(uuid.UUID) error
 	UnDelete(uuid.UUID) error

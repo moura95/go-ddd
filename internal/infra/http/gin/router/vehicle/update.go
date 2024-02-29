@@ -3,7 +3,7 @@ package vehicle_router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"go-ddd/internal/domain/vehicle"
+	dto "go-ddd/internal/dtos/vehicle"
 	"go-ddd/internal/util"
 	"net/http"
 )
@@ -32,7 +32,7 @@ func (v *VehicleRouter) update(ctx *gin.Context) {
 
 	}
 
-	updateVehicle := vehicle.Vehicle{
+	updateVehicle := dto.UpdateInput{
 		Uuid:              uuidStr,
 		Brand:             req.Brand,
 		Model:             req.Model,

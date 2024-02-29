@@ -5,15 +5,17 @@ import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"go-ddd/internal/domain/vehicle"
+	dto "go-ddd/internal/dtos/vehicle"
+
 	"go-ddd/internal/infra/cfg"
 	"go.uber.org/zap"
 )
 
 type IVehicleService interface {
-	Create(vehicle vehicle.Vehicle) error
-	List() ([]vehicle.Vehicle, error)
-	GetByID(uid uuid.UUID) (*vehicle.Vehicle, error)
-	Update(vehicle vehicle.Vehicle) error
+	Create(vehicle dto.CreateInput) error
+	List() ([]dto.Output, error)
+	GetByID(uid uuid.UUID) (*dto.Output, error)
+	Update(vehicle dto.UpdateInput) error
 	SoftDelete(uid uuid.UUID) error
 	UnDelete(uid uuid.UUID) error
 	HardDelete(uid uuid.UUID) error
@@ -35,7 +37,7 @@ func NewVehicleService(db *sqlx.DB, repo vehicle.IVehicleRepository, cfg cfg.Con
 	}
 }
 
-func (v *vehicleService) Create(vehicle vehicle.Vehicle) error {
+func (v *vehicleService) Create(vehicle dto.CreateInput) error {
 	err := v.repository.Create(vehicle)
 	if err != nil {
 		return fmt.Errorf("failed to create %s", err.Error())
@@ -43,26 +45,26 @@ func (v *vehicleService) Create(vehicle vehicle.Vehicle) error {
 	return nil
 }
 
-func (v *vehicleService) List() ([]vehicle.Vehicle, error) {
+func (v *vehicleService) List() ([]dto.Output, error) {
 	vehicles, err := v.repository.GetAll()
 	if err != nil {
-		return []vehicle.Vehicle{}, fmt.Errorf("failed to get %s", err.Error())
+		return []dto.Output{}, fmt.Errorf("failed to get %s", err.Error())
 
 	}
 	return vehicles, nil
 }
 
-func (v *vehicleService) GetByID(uid uuid.UUID) (*vehicle.Vehicle, error) {
+func (v *vehicleService) GetByID(uid uuid.UUID) (*dto.Output, error) {
 	ve, err := v.repository.GetByID(uid)
 	if err != nil {
-		return &vehicle.Vehicle{}, fmt.Errorf("failed to get %s", err.Error())
+		return &dto.Output{}, fmt.Errorf("failed to get %s", err.Error())
 
 	}
 	return ve, nil
 
 }
 
-func (v *vehicleService) Update(vehicle vehicle.Vehicle) error {
+func (v *vehicleService) Update(vehicle dto.UpdateInput) error {
 	err := v.repository.Update(&vehicle)
 	if err != nil {
 		return fmt.Errorf("failed to update %s", err.Error())

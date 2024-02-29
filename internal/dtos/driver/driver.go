@@ -1,4 +1,4 @@
-package dtos
+package driver
 
 import (
 	"database/sql"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type DriverOuput struct {
+type Ouput struct {
 	Uuid          uuid.UUID      `db:"uuid"`
 	Name          string         `db:"name"`
 	Email         string         `db:"email"`
@@ -18,7 +18,7 @@ type DriverOuput struct {
 	UpdatedAt     time.Time      `db:"update_at"`
 }
 
-type DriverCreateInput struct {
+type CreateInput struct {
 	Name          string
 	Email         string
 	TaxID         string
@@ -26,7 +26,7 @@ type DriverCreateInput struct {
 	DateOfBirth   sql.NullString
 }
 
-type DriverUpdateInput struct {
+type UpdateInput struct {
 	Uuid          uuid.UUID
 	Name          string
 	Email         string

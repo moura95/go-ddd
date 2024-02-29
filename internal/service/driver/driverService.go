@@ -6,18 +6,19 @@ import (
 	"github.com/jmoiron/sqlx"
 	aggregate "go-ddd/internal/aggregate/driver_vehicle"
 	"go-ddd/internal/domain/driver"
-	"go-ddd/internal/dtos"
+	driver_dto "go-ddd/internal/dtos/driver"
+	"go-ddd/internal/dtos/driver_vehicle"
 	"go-ddd/internal/infra/cfg"
 	"go.uber.org/zap"
 )
 
 type IDriverService interface {
-	Create(driver dtos.DriverCreateInput) error
-	Subscribe(driverVehicle dtos.DriverVehicleInput) error
-	UnSubscribe(driverVehicle dtos.DriverVehicleInput) error
-	List() ([]dtos.DriverOuput, error)
+	Create(driver driver_dto.CreateInput) error
+	Subscribe(driverVehicle driver_vehicle.Input) error
+	UnSubscribe(driverVehicle driver_vehicle.Input) error
+	List() ([]driver_dto.Ouput, error)
 	GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregate, error)
-	Update(driver dtos.DriverUpdateInput) error
+	Update(driver driver_dto.UpdateInput) error
 	SoftDelete(uid uuid.UUID) error
 	UnDelete(uid uuid.UUID) error
 	HardDelete(uid uuid.UUID) error
@@ -39,8 +40,8 @@ func NewDriverService(db *sqlx.DB, repo driver.IDriverRepository, cfg cfg.Config
 	}
 }
 
-func (d *driverService) Create(dto dtos.DriverCreateInput) error {
-	dr := dtos.DriverCreateInput{
+func (d *driverService) Create(dto driver_dto.CreateInput) error {
+	dr := driver_dto.CreateInput{
 		Name:          dto.Name,
 		Email:         dto.Email,
 		TaxID:         dto.TaxID,
@@ -53,14 +54,14 @@ func (d *driverService) Create(dto dtos.DriverCreateInput) error {
 	}
 	return nil
 }
-func (d *driverService) Subscribe(driverVehicle dtos.DriverVehicleInput) error {
+func (d *driverService) Subscribe(driverVehicle driver_vehicle.Input) error {
 	err := d.repository.Subscribe(driverVehicle)
 	if err != nil {
 		return fmt.Errorf("failed to create %s", err.Error())
 	}
 	return nil
 }
-func (d *driverService) UnSubscribe(driverVehicle dtos.DriverVehicleInput) error {
+func (d *driverService) UnSubscribe(driverVehicle driver_vehicle.Input) error {
 	// unRelate driver before delete
 	err := d.repository.UnSubscribe(driverVehicle)
 	if err != nil {
@@ -78,16 +79,16 @@ func (d *driverService) GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregat
 	return (*aggregate.DriverVehicleAggregate)(driverOutput), nil
 }
 
-func (d *driverService) List() ([]dtos.DriverOuput, error) {
+func (d *driverService) List() ([]driver_dto.Ouput, error) {
 	drivers, err := d.repository.GetAll()
 	if err != nil {
-		return []dtos.DriverOuput{}, fmt.Errorf("failed to list drivers %s", err.Error())
+		return []driver_dto.Ouput{}, fmt.Errorf("failed to list drivers %s", err.Error())
 	}
 	return drivers, nil
 }
 
-func (d *driverService) Update(dto dtos.DriverUpdateInput) error {
-	dr := dtos.DriverUpdateInput{
+func (d *driverService) Update(dto driver_dto.UpdateInput) error {
+	dr := driver_dto.UpdateInput{
 		Uuid:          dto.Uuid,
 		Name:          dto.Name,
 		Email:         dto.Email,

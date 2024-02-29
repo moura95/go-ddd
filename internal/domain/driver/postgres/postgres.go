@@ -7,7 +7,8 @@ import (
 	"github.com/jmoiron/sqlx"
 	"go-ddd/internal/domain/driver"
 	"go-ddd/internal/domain/vehicle"
-	"go-ddd/internal/dtos"
+	dto "go-ddd/internal/dtos/driver"
+	"go-ddd/internal/dtos/driver_vehicle"
 	"go.uber.org/zap"
 	"time"
 )
@@ -21,16 +22,16 @@ func NewDriverRepository(db *sqlx.DB, log *zap.SugaredLogger) driver.IDriverRepo
 	return &driverRepository{db: db, logger: log}
 }
 
-func (r *driverRepository) GetAll() ([]dtos.DriverOuput, error) {
-	var drivers []dtos.DriverOuput
+func (r *driverRepository) GetAll() ([]dto.Ouput, error) {
+	var drivers []dto.Ouput
 	query := "SELECT * FROM drivers WHERE deleted_at is null"
 	if err := r.db.Select(&drivers, query); err != nil {
-		return []dtos.DriverOuput{}, err
+		return []dto.Ouput{}, err
 	}
 	return drivers, nil
 }
 
-func (r *driverRepository) Create(driver dtos.DriverCreateInput) error {
+func (r *driverRepository) Create(driver dto.CreateInput) error {
 	query := `
         INSERT INTO drivers (name, email, tax_id, driver_license, date_of_birth)
         VALUES ($1, $2, $3, $4, $5)
@@ -50,7 +51,7 @@ func (r *driverRepository) Create(driver dtos.DriverCreateInput) error {
 	return nil
 }
 
-func (r *driverRepository) Subscribe(driverVehicle dtos.DriverVehicleInput) error {
+func (r *driverRepository) Subscribe(driverVehicle driver_vehicle.Input) error {
 	query := `
         INSERT INTO drivers_vehicles (driver_uuid, vehicle_uuid)
         VALUES ($1, $2)
@@ -67,7 +68,7 @@ func (r *driverRepository) Subscribe(driverVehicle dtos.DriverVehicleInput) erro
 	return nil
 }
 
-func (r *driverRepository) UnSubscribe(driverVehicle dtos.DriverVehicleInput) error {
+func (r *driverRepository) UnSubscribe(driverVehicle driver_vehicle.Input) error {
 	query := "DELETE FROM drivers_vehicles WHERE driver_uuid =$1 AND vehicle_uuid =$2"
 	args := []interface{}{
 		driverVehicle.VehicleUUID,
@@ -80,7 +81,7 @@ func (r *driverRepository) UnSubscribe(driverVehicle dtos.DriverVehicleInput) er
 	return err
 }
 
-func (r *driverRepository) GetByID(uid uuid.UUID) (*dtos.DriverVehicle, error) {
+func (r *driverRepository) GetByID(uid uuid.UUID) (*driver_vehicle.Output, error) {
 	var result []struct {
 		DriverUUID    uuid.UUID      `database:"uuid"`
 		DriverName    string         `database:"name"`
@@ -113,7 +114,7 @@ func (r *driverRepository) GetByID(uid uuid.UUID) (*dtos.DriverVehicle, error) {
 		return nil, err
 	}
 
-	driver := &dtos.DriverVehicle{
+	d := &driver_vehicle.Output{
 		Uuid:          result[0].DriverUUID,
 		Name:          result[0].DriverName,
 		Email:         result[0].DriverEmail,
@@ -124,20 +125,20 @@ func (r *driverRepository) GetByID(uid uuid.UUID) (*dtos.DriverVehicle, error) {
 	}
 
 	for _, res := range result {
-		vehicle := vehicle.Vehicle{
+		v := vehicle.Vehicle{
 			Uuid:              res.VehicleUUID,
 			Brand:             res.VehicleBrand,
 			Model:             res.VehicleModel,
 			YearOfManufacture: res.VehicleYear,
 			Color:             res.VehicleColor,
 		}
-		driver.Vehicles = append(driver.Vehicles, vehicle)
+		d.Vehicles = append(d.Vehicles, v)
 	}
 
-	return driver, nil
+	return d, nil
 }
 
-func (r *driverRepository) Update(uuid uuid.UUID, driver *dtos.DriverUpdateInput) error {
+func (r *driverRepository) Update(uuid uuid.UUID, driver *dto.UpdateInput) error {
 	query := `
         UPDATE drivers 
         SET name=$2, tax_id=$3, driver_license=$4, date_of_birth=$5, update_at=$6

@@ -2,7 +2,7 @@ package vehicle_router
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-ddd/internal/domain/vehicle"
+	dto "go-ddd/internal/dtos/vehicle"
 	"go-ddd/internal/util"
 	"net/http"
 )
@@ -25,7 +25,7 @@ func (v *VehicleRouter) create(ctx *gin.Context) {
 		return
 	}
 
-	ve := vehicle.Vehicle{
+	ve := dto.CreateInput{
 		Brand:             req.Brand,
 		Model:             req.Model,
 		YearOfManufacture: req.YearOfManufacture,
@@ -38,7 +38,6 @@ func (v *VehicleRouter) create(ctx *gin.Context) {
 		ctx.JSON(500, util.ErrorResponse(util.ErrorDatabaseCreate.Error()))
 		return
 	}
-	v.logger.Infof("Successful Created uuid: %s", ve.Uuid)
 
 	ctx.JSON(http.StatusCreated, util.SuccessResponse(req))
 }

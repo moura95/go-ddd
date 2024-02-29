@@ -1,4 +1,4 @@
-package dtos
+package driver_vehicle
 
 import (
 	"database/sql"
@@ -7,12 +7,12 @@ import (
 	"time"
 )
 
-type DriverVehicleInput struct {
+type Input struct {
 	DriverUUID  uuid.UUID `db:"driver_uuid"`
 	VehicleUUID uuid.UUID `db:"vehicle_uuid"`
 }
 
-type DriverVehicle struct {
+type Output struct {
 	Uuid          uuid.UUID      `db:"uuid"`
 	Name          string         `db:"name"`
 	Email         string         `db:"email"`

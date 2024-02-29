@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"go-ddd/internal/dtos"
+	"go-ddd/internal/dtos/driver"
+	"go-ddd/internal/dtos/driver_vehicle"
 	"go-ddd/internal/util"
 	"net/http"
 )
@@ -28,7 +29,7 @@ func (d *Driver) create(ctx *gin.Context) {
 		return
 	}
 
-	dr := dtos.DriverCreateInput{
+	dr := driver.CreateInput{
 		Name:          req.Name,
 		Email:         req.Email,
 		TaxID:         req.TaxID,
@@ -76,7 +77,7 @@ func (d *Driver) subscribe(ctx *gin.Context) {
 		return
 	}
 
-	subs := dtos.DriverVehicleInput{
+	subs := driver_vehicle.Input{
 		DriverUUID:  vehicleUUID,
 		VehicleUUID: driverUUID,
 	}
@@ -115,7 +116,7 @@ func (d *Driver) unSubscribe(ctx *gin.Context) {
 		ctx.JSON(400, util.ErrorResponse("Failed Unmarshal"))
 		return
 	}
-	unSubs := dtos.DriverVehicleInput{
+	unSubs := driver_vehicle.Input{
 		DriverUUID:  vehicleUUID,
 		VehicleUUID: driverUUID,
 	}
