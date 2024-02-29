@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-ddd/internal/aggregate/driver_vehicle"
+	aggregate "go-ddd/internal/aggregate/driver_vehicle"
 	"go-ddd/internal/domain/driver"
 	"go-ddd/internal/dtos"
 	"go-ddd/internal/infra/cfg"
@@ -12,10 +12,10 @@ import (
 )
 
 type IDriverService interface {
-	Create(driver dtos.DriverCreateInput) error
+	Create(driver driver.Driver) error
 	Subscribe(driverVehicle dtos.DriverVehicleInput) error
 	UnSubscribe(driverVehicle dtos.DriverVehicleInput) error
-	List() ([]dtos.Driver, error)
+	List() ([]driver.Driver, error)
 	GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregate, error)
 	Update(driver dtos.DriverUpdateInput) error
 	SoftDelete(uid uuid.UUID) error
@@ -23,15 +23,15 @@ type IDriverService interface {
 	HardDelete(uid uuid.UUID) error
 }
 
-type DriverService struct {
+type driverService struct {
 	database   *sqlx.DB
 	repository driver.IDriverRepository
 	config     cfg.Config
 	logger     *zap.SugaredLogger
 }
 
-func NewDriverService(db *sqlx.DB, repo driver.IDriverRepository, cfg cfg.Config, log *zap.SugaredLogger) *DriverService {
-	return &DriverService{
+func NewDriverService(db *sqlx.DB, repo driver.IDriverRepository, cfg cfg.Config, log *zap.SugaredLogger) *driverService {
+	return &driverService{
 		database:   db,
 		repository: repo,
 		config:     cfg,
@@ -39,7 +39,7 @@ func NewDriverService(db *sqlx.DB, repo driver.IDriverRepository, cfg cfg.Config
 	}
 }
 
-func (d *DriverService) Create(dto dtos.DriverCreateInput) error {
+func (d *driverService) Create(dto dtos.DriverCreateInput) error {
 	dr := driver.Driver{
 		Name:          dto.Name,
 		Email:         dto.Email,
@@ -53,14 +53,14 @@ func (d *DriverService) Create(dto dtos.DriverCreateInput) error {
 	}
 	return nil
 }
-func (d *DriverService) Subscribe(driverVehicle dtos.DriverVehicleInput) error {
+func (d *driverService) Subscribe(driverVehicle dtos.DriverVehicleInput) error {
 	err := d.repository.Subscribe(driverVehicle)
 	if err != nil {
 		return fmt.Errorf("failed to create %s", err.Error())
 	}
 	return nil
 }
-func (d *DriverService) UnSubscribe(driverVehicle dtos.DriverVehicleInput) error {
+func (d *driverService) UnSubscribe(driverVehicle dtos.DriverVehicleInput) error {
 	// unRelate driver before delete
 	err := d.repository.UnSubscribe(driverVehicle)
 	if err != nil {
@@ -69,24 +69,24 @@ func (d *DriverService) UnSubscribe(driverVehicle dtos.DriverVehicleInput) error
 	return nil
 }
 
-func (d *DriverService) GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregate, error) {
+func (d *driverService) GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregate, error) {
 	driverOutput, err := d.repository.GetByID(uid)
 
 	if err != nil {
 		return &aggregate.DriverVehicleAggregate{}, fmt.Errorf("failed to get driver %s", err.Error())
 	}
-	return driverOutput, nil
+	return (*aggregate.DriverVehicleAggregate)(driverOutput), nil
 }
 
-func (d *DriverService) List() ([]dtos.Driver, error) {
+func (d *driverService) List() ([]dtos.DriverOuput, error) {
 	drivers, err := d.repository.GetAll()
 	if err != nil {
-		return []dtos.Driver{}, fmt.Errorf("failed to list drivers %s", err.Error())
+		return []dtos.DriverOuput{}, fmt.Errorf("failed to list drivers %s", err.Error())
 	}
 	return drivers, nil
 }
 
-func (d *DriverService) Update(dto dtos.DriverUpdateInput) error {
+func (d *driverService) Update(dto dtos.DriverUpdateInput) error {
 	dr := driver.Driver{
 		Uuid:          dto.Uuid,
 		Name:          dto.Name,
@@ -102,7 +102,7 @@ func (d *DriverService) Update(dto dtos.DriverUpdateInput) error {
 	return nil
 }
 
-func (d *DriverService) SoftDelete(uid uuid.UUID) error {
+func (d *driverService) SoftDelete(uid uuid.UUID) error {
 	err := d.repository.SoftDelete(uid)
 	if err != nil {
 		return fmt.Errorf("failed to delete driver %s", err.Error())
@@ -110,7 +110,7 @@ func (d *DriverService) SoftDelete(uid uuid.UUID) error {
 	return nil
 }
 
-func (d *DriverService) UnDelete(uid uuid.UUID) error {
+func (d *driverService) UnDelete(uid uuid.UUID) error {
 	err := d.repository.UnDelete(uid)
 	if err != nil {
 		return fmt.Errorf("failed to recover driver %s", err.Error())
@@ -118,7 +118,7 @@ func (d *DriverService) UnDelete(uid uuid.UUID) error {
 	return nil
 }
 
-func (d *DriverService) HardDelete(uid uuid.UUID) error {
+func (d *driverService) HardDelete(uid uuid.UUID) error {
 	// unRelate driver before delete
 	err := d.repository.UnRelate(uid)
 	if err != nil {

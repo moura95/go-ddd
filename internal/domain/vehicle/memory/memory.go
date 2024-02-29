@@ -20,22 +20,22 @@ type IVehicleRepositoryMock interface {
 	UnRelate(vehicleUUID uuid.UUID) error
 }
 
-type VehicleRepositoryMock struct {
+type VehicleRepositoryMemory struct {
 	vehicles []vehicle.Vehicle
 }
 
-func (v VehicleRepositoryMock) Subscribe(aggregate.DriverVehicleAggregate) error {
+func (v VehicleRepositoryMemory) Subscribe(aggregate.DriverVehicleAggregate) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (v VehicleRepositoryMock) UnSubscribe(aggregate.DriverVehicleAggregate) error {
+func (v VehicleRepositoryMemory) UnSubscribe(aggregate.DriverVehicleAggregate) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func NewVehicleRepositoryMock() IVehicleRepositoryMock {
-	return &VehicleRepositoryMock{vehicles: []vehicle.Vehicle{
+func NewVehicleRepositoryMemory() IVehicleRepositoryMock {
+	return &VehicleRepositoryMemory{vehicles: []vehicle.Vehicle{
 		{
 			Uuid:              uuid.MustParse("43ee3d4c-de06-4021-ab6f-ba8113418df9"),
 			Brand:             "Scania",
@@ -58,16 +58,16 @@ func NewVehicleRepositoryMock() IVehicleRepositoryMock {
 		}}}
 }
 
-func (v VehicleRepositoryMock) GetAll() ([]vehicle.Vehicle, error) {
+func (v VehicleRepositoryMemory) GetAll() ([]vehicle.Vehicle, error) {
 	return v.vehicles, nil
 }
 
-func (v VehicleRepositoryMock) Create(vehicle vehicle.Vehicle) error {
+func (v VehicleRepositoryMemory) Create(vehicle vehicle.Vehicle) error {
 	v.vehicles = append(v.vehicles, vehicle)
 	return nil
 }
 
-func (v VehicleRepositoryMock) GetByID(u uuid.UUID) (*vehicle.Vehicle, error) {
+func (v VehicleRepositoryMemory) GetByID(u uuid.UUID) (*vehicle.Vehicle, error) {
 	for _, vehicle := range v.vehicles {
 		if vehicle.Uuid == u {
 			return &vehicle, nil
@@ -76,7 +76,7 @@ func (v VehicleRepositoryMock) GetByID(u uuid.UUID) (*vehicle.Vehicle, error) {
 	return nil, nil
 }
 
-func (v VehicleRepositoryMock) Update(vehicle *vehicle.Vehicle) error {
+func (v VehicleRepositoryMemory) Update(vehicle *vehicle.Vehicle) error {
 	for i, ve := range v.vehicles {
 		if ve.Uuid == vehicle.Uuid {
 			v.vehicles[i] = *vehicle
@@ -86,7 +86,7 @@ func (v VehicleRepositoryMock) Update(vehicle *vehicle.Vehicle) error {
 	return nil
 }
 
-func (v VehicleRepositoryMock) HardDelete(u uuid.UUID) error {
+func (v VehicleRepositoryMemory) HardDelete(u uuid.UUID) error {
 	for i, vehicle := range v.vehicles {
 		if vehicle.Uuid == u {
 			v.vehicles = append(v.vehicles[:i], v.vehicles[i+1:]...)
@@ -96,7 +96,7 @@ func (v VehicleRepositoryMock) HardDelete(u uuid.UUID) error {
 	return nil
 }
 
-func (v VehicleRepositoryMock) SoftDelete(u uuid.UUID) error {
+func (v VehicleRepositoryMemory) SoftDelete(u uuid.UUID) error {
 	for i, vehicle := range v.vehicles {
 		if vehicle.Uuid == u {
 			vehicle.DeletedAt.String = time.Now().String()
@@ -107,7 +107,7 @@ func (v VehicleRepositoryMock) SoftDelete(u uuid.UUID) error {
 	return nil
 }
 
-func (v VehicleRepositoryMock) UnDelete(u uuid.UUID) error {
+func (v VehicleRepositoryMemory) UnDelete(u uuid.UUID) error {
 	for i, vehicle := range v.vehicles {
 		if vehicle.Uuid == u {
 			vehicle.DeletedAt.String = ""
@@ -118,7 +118,7 @@ func (v VehicleRepositoryMock) UnDelete(u uuid.UUID) error {
 	return nil
 }
 
-func (v VehicleRepositoryMock) UnRelate(vehicleUUID uuid.UUID) error {
+func (v VehicleRepositoryMemory) UnRelate(vehicleUUID uuid.UUID) error {
 	//TODO implement me
 	panic("implement me")
 }

@@ -14,7 +14,7 @@ type Driver struct {
 	TaxID         string
 	DriverLicense string
 	DateOfBirth   sql.NullString
-	DeletedAt     sql.NullStriDriverng
+	DeletedAt     sql.NullString
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 }

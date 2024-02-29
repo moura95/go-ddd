@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	_ "github.com/lib/pq"
-	http "go-ddd/cmd/http"
+	"go-ddd/cmd/http"
 	"go-ddd/internal/infra/cfg"
 	"go-ddd/internal/infra/database"
 	"go.uber.org/zap"

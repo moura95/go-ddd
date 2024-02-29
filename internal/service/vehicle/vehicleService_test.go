@@ -1,8 +1,8 @@
 package vehicle
 
 import (
-	"go-ddd/infra/database/model"
-	"go-ddd/internal/repository"
+	"go-ddd/internal/domain/vehicle"
+	"go-ddd/internal/domain/vehicle/memory"
 	"testing"
 
 	"github.com/google/uuid"
@@ -10,20 +10,20 @@ import (
 )
 
 type VehicleServiceTest struct {
-	repository repository.IVehicleRepositoryMock
+	repository memory.IVehicleRepositoryMock
 }
 
-func NewVehicleServiceTest(repo repository.IVehicleRepositoryMock) *VehicleServiceTest {
+func NewVehicleServiceTest(repo memory.IVehicleRepositoryMock) *VehicleServiceTest {
 	return &VehicleServiceTest{
 		repository: repo,
 	}
 }
 
 func TestCreateVehicle(t *testing.T) {
-	mockRepo := repository.NewVehicleRepositoryMock()
+	mockRepo := memory.NewVehicleRepositoryMemory()
 	service := NewVehicleServiceTest(mockRepo)
 
-	vehicle := model.Vehicle{
+	ve := vehicle.Vehicle{
 		Uuid:              uuid.New(),
 		Brand:             "Volvo",
 		Model:             "FJ15",
@@ -32,7 +32,7 @@ func TestCreateVehicle(t *testing.T) {
 		Color:             "Blue",
 	}
 
-	err := service.repository.Create(vehicle)
+	err := service.repository.Create(ve)
 	if err != nil {
 		t.Error("Failed to created")
 	}
@@ -41,7 +41,8 @@ func TestCreateVehicle(t *testing.T) {
 }
 
 func TestGetAllVehicles(t *testing.T) {
-	mockRepo := repository.NewVehicleRepositoryMock()
+	mockRepo := memory.NewVehicleRepositoryMemory()
+
 	service := NewVehicleServiceTest(mockRepo)
 
 	vehicles, err := service.repository.GetAll()
@@ -66,7 +67,7 @@ func TestGetAllVehicles(t *testing.T) {
 }
 
 func TestGetVehicleID(t *testing.T) {
-	mockRepo := repository.NewVehicleRepositoryMock()
+	mockRepo := memory.NewVehicleRepositoryMemory()
 	service := NewVehicleServiceTest(mockRepo)
 
 	vehicle, err := service.repository.GetByID(uuid.MustParse("43ee3d4c-de06-4021-ab6f-ba8113418df9"))
@@ -85,12 +86,12 @@ func TestGetVehicleID(t *testing.T) {
 }
 
 func TestUpdateVehicle(t *testing.T) {
-	mockRepo := repository.NewVehicleRepositoryMock()
+	mockRepo := memory.NewVehicleRepositoryMemory()
 	service := NewVehicleServiceTest(mockRepo)
 
 	uid := uuid.MustParse("43ee3d4c-de06-4021-ab6f-ba8113418df9")
 
-	d := &model.Vehicle{
+	d := &vehicle.Vehicle{
 		Uuid:              uid,
 		Brand:             "Scania Update",
 		Model:             "R501",
@@ -107,7 +108,7 @@ func TestUpdateVehicle(t *testing.T) {
 }
 
 func TestVehicleHardDelete(t *testing.T) {
-	mockRepo := repository.NewVehicleRepositoryMock()
+	mockRepo := memory.NewVehicleRepositoryMemory()
 	service := NewVehicleServiceTest(mockRepo)
 
 	uid := uuid.MustParse("43ee3d4c-de06-4021-ab6f-ba8113418df9")
@@ -119,7 +120,7 @@ func TestVehicleHardDelete(t *testing.T) {
 }
 
 func TestVehicleSoftDelete(t *testing.T) {
-	mockRepo := repository.NewVehicleRepositoryMock()
+	mockRepo := memory.NewVehicleRepositoryMemory()
 	service := NewVehicleServiceTest(mockRepo)
 
 	uid := uuid.MustParse("43ee3d4c-de06-4021-ab6f-ba8113418df9")

@@ -8,15 +8,15 @@ import (
 )
 
 type Vehicle struct {
-	Uuid              uuid.UUID      `database:"uuid"`
-	Brand             string         `database:"brand"`
-	Model             string         `database:"model"`
-	YearOfManufacture uint           `database:"year_of_manufacture"`
-	LicensePlate      string         `database:"license_plate"`
-	Color             string         `database:"color"`
-	DeletedAt         sql.NullString `database:"deleted_at"`
-	CreatedAt         time.Time      `database:"created_at"`
-	UpdatedAt         time.Time      `database:"update_at"`
+	Uuid              uuid.UUID
+	Brand             string
+	Model             string
+	YearOfManufacture uint
+	LicensePlate      string
+	Color             string
+	DeletedAt         sql.NullString
+	CreatedAt         time.Time
+	UpdatedAt         time.Time
 }
 
 func NewVehicle(brand, model, licensePlate, color string, yearOfManufacture uint) *Vehicle {

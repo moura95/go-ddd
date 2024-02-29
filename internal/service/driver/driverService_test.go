@@ -1,4 +1,4 @@
-package driver
+package driver_test
 
 import (
 	"go-ddd/internal/domain/driver"

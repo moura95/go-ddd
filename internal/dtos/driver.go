@@ -6,16 +6,16 @@ import (
 	"time"
 )
 
-type Driver struct {
-	Uuid          uuid.UUID      `database:"uuid"`
-	Name          string         `database:"name"`
-	Email         string         `database:"email"`
-	TaxID         string         `database:"tax_id"`
-	DriverLicense string         `database:"driver_license"`
-	DateOfBirth   sql.NullString `database:"date_of_birth"`
-	DeletedAt     sql.NullString `database:"deleted_at"`
-	CreatedAt     time.Time      `database:"created_at"`
-	UpdatedAt     time.Time      `database:"update_at"`
+type DriverOuput struct {
+	Uuid          uuid.UUID      `db:"uuid"`
+	Name          string         `db:"name"`
+	Email         string         `db:"email"`
+	TaxID         string         `db:"tax_id"`
+	DriverLicense string         `db:"driver_license"`
+	DateOfBirth   sql.NullString `db:"date_of_birth"`
+	DeletedAt     sql.NullString `db:"deleted_at"`
+	CreatedAt     time.Time      `db:"created_at"`
+	UpdatedAt     time.Time      `db:"update_at"`
 }
 
 type DriverCreateInput struct {
