@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 	"go-ddd/internal/dtos/driver"
 	"go-ddd/internal/dtos/driver_vehicle"
-	"go-ddd/internal/util"
+	"go-ddd/internal/infra/util"
 	"net/http"
 )
 

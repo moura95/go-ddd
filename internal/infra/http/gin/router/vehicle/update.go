@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	dto "go-ddd/internal/dtos/vehicle"
-	"go-ddd/internal/util"
+	"go-ddd/internal/infra/util"
 	"net/http"
 )
 
