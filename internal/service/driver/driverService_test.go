@@ -1,8 +1,8 @@
 package driver_test
 
 import (
-	"go-ddd/internal/domain/driver"
 	"go-ddd/internal/domain/driver/memory"
+	dto "go-ddd/internal/dtos/driver"
 	"testing"
 
 	"github.com/google/uuid"
@@ -23,8 +23,7 @@ func TestCreateDriver(t *testing.T) {
 	mockRepo := memory.NewDriverRepositoryMemory()
 	service := NewDriverServiceTest(mockRepo)
 
-	d := driver.Driver{
-		Uuid:          uuid.New(),
+	d := dto.CreateInput{
 		Name:          "Driver Test",
 		Email:         "test@example.com",
 		TaxID:         "1234567890",
@@ -85,7 +84,7 @@ func TestUpdate(t *testing.T) {
 
 	uid := uuid.MustParse("61a218e4-7908-45d7-88bf-6226b53ab321")
 
-	d := &driver.Driver{
+	d := &dto.UpdateInput{
 		Name:          "Drive Updated",
 		Email:         "driver12345@example.com",
 		TaxID:         "123456",

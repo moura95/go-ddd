@@ -7,11 +7,11 @@ import (
 	"time"
 )
 
-type IVehicleRepositoryMock interface {
+type IVehicleRepositoryMemory interface {
 	GetAll() ([]vehicle.Vehicle, error)
 	Create(vehicle.Vehicle) error
 	Subscribe(aggregate.DriverVehicleAggregate) error
-	UnSubscribe(aggregate.aggregate) error
+	UnSubscribe(vehicleAggregate aggregate.DriverVehicleAggregate) error
 	GetByID(uuid.UUID) (*vehicle.Vehicle, error)
 	Update(*vehicle.Vehicle) error
 	HardDelete(uuid.UUID) error
@@ -24,17 +24,17 @@ type VehicleRepositoryMemory struct {
 	vehicles []vehicle.Vehicle
 }
 
-func (v VehicleRepositoryMemory) Subscribe(aggregate.aggregate) error {
+func (v VehicleRepositoryMemory) Subscribe(vehicleAggregate aggregate.DriverVehicleAggregate) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (v VehicleRepositoryMemory) UnSubscribe(aggregate.aggregate) error {
+func (v VehicleRepositoryMemory) UnSubscribe(aggregate.DriverVehicleAggregate) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func NewVehicleRepositoryMemory() IVehicleRepositoryMock {
+func NewVehicleRepositoryMemory() IVehicleRepositoryMemory {
 	return &VehicleRepositoryMemory{vehicles: []vehicle.Vehicle{
 		{
 			Uuid:              uuid.MustParse("43ee3d4c-de06-4021-ab6f-ba8113418df9"),

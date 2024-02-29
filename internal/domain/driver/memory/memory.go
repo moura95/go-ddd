@@ -5,31 +5,48 @@ import (
 	"github.com/google/uuid"
 	"go-ddd/internal/aggregate"
 	"go-ddd/internal/domain/driver"
+	dto "go-ddd/internal/dtos/driver"
+	"go-ddd/internal/dtos/driver_vehicle"
+
 	"time"
 )
 
 func (m *driverRepositoryMemory) GetAll() ([]driver.Driver, error) {
+
 	return m.drivers, nil
 }
 
-func (m *driverRepositoryMemory) Create(driver driver.Driver) error {
-	m.drivers = append(m.drivers, driver)
+func (m *driverRepositoryMemory) Create(dto dto.CreateInput) error {
+	d := driver.NewDriver(dto.Name, dto.Email, dto.TaxID, dto.DriverLicense, dto.DateOfBirth.String)
+	m.drivers = append(m.drivers, *d)
 	return nil
 }
 
-func (m *driverRepositoryMemory) GetByID(u uuid.UUID) (*driver.Driver, error) {
+func (m *driverRepositoryMemory) GetByID(u uuid.UUID) (*aggregate.DriverVehicleAggregate, error) {
 	for _, d := range m.drivers {
 		if d.Uuid == u {
-			return &d, nil
+
+			return &aggregate.DriverVehicleAggregate{
+				Uuid:          d.Uuid,
+				Name:          d.Name,
+				Email:         d.Email,
+				TaxID:         d.TaxID,
+				DriverLicense: d.DriverLicense,
+				DateOfBirth:   d.DateOfBirth,
+				DeletedAt:     sql.NullString{},
+				CreatedAt:     time.Time{},
+				UpdatedAt:     time.Time{},
+				Vehicles:      nil,
+			}, nil
 		}
 	}
 	return nil, nil
 }
 
-func (m *driverRepositoryMemory) Update(u uuid.UUID, driver *driver.Driver) error {
+func (m *driverRepositoryMemory) Update(u uuid.UUID, dto *dto.UpdateInput) error {
 	for i, d := range m.drivers {
 		if d.Uuid == u {
-			m.drivers[i] = *driver
+			m.drivers[i] = *driver.NewDriver(dto.Name, dto.Email, dto.TaxID, dto.DriverLicense, dto.DateOfBirth.String)
 			return nil
 		}
 	}
@@ -68,12 +85,12 @@ func (m *driverRepositoryMemory) UnDelete(u uuid.UUID) error {
 	return nil
 }
 
-func (m *driverRepositoryMemory) Subscribe(driver aggregate.aggregate) error {
+func (m *driverRepositoryMemory) Subscribe(driver driver_vehicle.Input) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (m *driverRepositoryMemory) UnSubscribe(vehicle aggregate.DriverVehicleAggregate) error {
+func (m *driverRepositoryMemory) UnSubscribe(vehicle driver_vehicle.Input) error {
 	//TODO implement me
 	panic("implement me")
 }
@@ -85,11 +102,11 @@ func (m *driverRepositoryMemory) UnRelate(uuid2 uuid.UUID) error {
 
 type IDriverRepositoryMemory interface {
 	GetAll() ([]driver.Driver, error)
-	Create(driver.Driver) error
-	Subscribe(driver aggregate.DriverVehicleAggregate) error
-	UnSubscribe(vehicle aggregate.DriverVehicleAggregate) error
-	GetByID(uuid.UUID) (*driver.Driver, error)
-	Update(uuid.UUID, *driver.Driver) error
+	Create(input dto.CreateInput) error
+	Subscribe(driver driver_vehicle.Input) error
+	UnSubscribe(vehicle driver_vehicle.Input) error
+	GetByID(uuid.UUID) (*aggregate.DriverVehicleAggregate, error)
+	Update(uuid.UUID, *dto.UpdateInput) error
 	HardDelete(uuid.UUID) error
 	SoftDelete(uuid.UUID) error
 	UnDelete(uuid.UUID) error

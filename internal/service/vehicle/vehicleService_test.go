@@ -10,10 +10,10 @@ import (
 )
 
 type VehicleServiceTest struct {
-	repository memory.IVehicleRepositoryMock
+	repository memory.IVehicleRepositoryMemory
 }
 
-func NewVehicleServiceTest(repo memory.IVehicleRepositoryMock) *VehicleServiceTest {
+func NewVehicleServiceTest(repo memory.IVehicleRepositoryMemory) *VehicleServiceTest {
 	return &VehicleServiceTest{
 		repository: repo,
 	}
