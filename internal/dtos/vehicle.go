@@ -27,9 +27,10 @@ type VehicleCreateInput struct {
 }
 
 type VehicleUpdateInput struct {
-	Brand             string `db:"brand"`
-	Model             string `db:"model"`
-	YearOfManufacture uint   `db:"year_of_manufacture"`
-	LicensePlate      string `db:"license_plate"`
-	Color             string `db:"color"`
+	Uuid              uuid.UUID `db:"uuid"`
+	Brand             string    `db:"brand"`
+	Model             string    `db:"model"`
+	YearOfManufacture uint      `db:"year_of_manufacture"`
+	LicensePlate      string    `db:"license_plate"`
+	Color             string    `db:"color"`
 }

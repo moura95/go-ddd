@@ -12,10 +12,10 @@ import (
 )
 
 type IDriverService interface {
-	Create(driver driver.Driver) error
+	Create(driver dtos.DriverCreateInput) error
 	Subscribe(driverVehicle dtos.DriverVehicleInput) error
 	UnSubscribe(driverVehicle dtos.DriverVehicleInput) error
-	List() ([]driver.Driver, error)
+	List() ([]dtos.DriverOuput, error)
 	GetByID(uid uuid.UUID) (*aggregate.DriverVehicleAggregate, error)
 	Update(driver dtos.DriverUpdateInput) error
 	SoftDelete(uid uuid.UUID) error
@@ -40,7 +40,7 @@ func NewDriverService(db *sqlx.DB, repo driver.IDriverRepository, cfg cfg.Config
 }
 
 func (d *driverService) Create(dto dtos.DriverCreateInput) error {
-	dr := driver.Driver{
+	dr := dtos.DriverCreateInput{
 		Name:          dto.Name,
 		Email:         dto.Email,
 		TaxID:         dto.TaxID,
@@ -87,7 +87,7 @@ func (d *driverService) List() ([]dtos.DriverOuput, error) {
 }
 
 func (d *driverService) Update(dto dtos.DriverUpdateInput) error {
-	dr := driver.Driver{
+	dr := dtos.DriverUpdateInput{
 		Uuid:          dto.Uuid,
 		Name:          dto.Name,
 		Email:         dto.Email,

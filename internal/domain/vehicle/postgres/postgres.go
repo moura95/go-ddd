@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"go-ddd/internal/domain/vehicle"
+	"go-ddd/internal/dtos"
 	"go.uber.org/zap"
 	"time"
 )
@@ -19,8 +20,8 @@ func NewVehicleRepository(db *sqlx.DB, log *zap.SugaredLogger) vehicle.IVehicleR
 	return &vehicleRepository{db: db, logger: log}
 }
 
-func (r *vehicleRepository) GetAll() ([]vehicle.Vehicle, error) {
-	var vehicles []vehicle.Vehicle
+func (r *vehicleRepository) GetAll() ([]dtos.VehicleOutput, error) {
+	var vehicles []dtos.VehicleOutput
 	query := "SELECT * FROM vehicles WHERE deleted_at is null"
 	if err := r.db.Select(&vehicles, query); err != nil {
 		return nil, err
@@ -28,7 +29,7 @@ func (r *vehicleRepository) GetAll() ([]vehicle.Vehicle, error) {
 	return vehicles, nil
 }
 
-func (r *vehicleRepository) Create(vehicle vehicle.Vehicle) error {
+func (r *vehicleRepository) Create(vehicle dtos.VehicleCreateInput) error {
 	query := `
         INSERT INTO vehicles (brand, model, year_of_manufacture, license_plate, color)
         VALUES ($1, $2, $3, $4, $5)
@@ -59,7 +60,7 @@ func (r *vehicleRepository) GetByID(uuid uuid.UUID) (*vehicle.Vehicle, error) {
 	return &vehicle, nil
 }
 
-func (r *vehicleRepository) Update(vehicle *vehicle.Vehicle) error {
+func (r *vehicleRepository) Update(vehicle *dtos.VehicleUpdateInput) error {
 	query := `
         UPDATE vehicles 
         SET brand=$2, model=$3, year_of_manufacture=$4, license_plate=$5, color=$6, update_at=$7

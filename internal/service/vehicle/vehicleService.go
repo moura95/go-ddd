@@ -12,7 +12,7 @@ import (
 
 type IVehicleService interface {
 	Create(vehicle dtos.VehicleCreateInput) error
-	List() ([]vehicle.Vehicle, error)
+	List() ([]dtos.VehicleOutput, error)
 	GetByID(uid uuid.UUID) (*vehicle.Vehicle, error)
 	Update(vehicle dtos.VehicleUpdateInput) error
 	SoftDelete(uid uuid.UUID) error

@@ -21,16 +21,16 @@ func NewDriverRepository(db *sqlx.DB, log *zap.SugaredLogger) driver.IDriverRepo
 	return &driverRepository{db: db, logger: log}
 }
 
-func (r *driverRepository) GetAll() ([]dtos.Driver, error) {
-	var drivers []dtos.Driver
+func (r *driverRepository) GetAll() ([]dtos.DriverOuput, error) {
+	var drivers []dtos.DriverOuput
 	query := "SELECT * FROM drivers WHERE deleted_at is null"
 	if err := r.db.Select(&drivers, query); err != nil {
-		return []dtos.Driver{}, err
+		return []dtos.DriverOuput{}, err
 	}
 	return drivers, nil
 }
 
-func (r *driverRepository) Create(driver driver.Driver) error {
+func (r *driverRepository) Create(driver dtos.DriverCreateInput) error {
 	query := `
         INSERT INTO drivers (name, email, tax_id, driver_license, date_of_birth)
         VALUES ($1, $2, $3, $4, $5)
@@ -137,7 +137,7 @@ func (r *driverRepository) GetByID(uid uuid.UUID) (*dtos.DriverVehicle, error) {
 	return driver, nil
 }
 
-func (r *driverRepository) Update(uuid uuid.UUID, driver *driver.Driver) error {
+func (r *driverRepository) Update(uuid uuid.UUID, driver *dtos.DriverUpdateInput) error {
 	query := `
         UPDATE drivers 
         SET name=$2, tax_id=$3, driver_license=$4, date_of_birth=$5, update_at=$6
