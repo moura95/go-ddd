@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -30,19 +31,24 @@ func (r *vehicleRepository) GetAll() ([]dto.Output, error) {
 	return vehicles, nil
 }
 
-func (r *vehicleRepository) Create(vehicle dto.CreateInput) error {
+func (r *vehicleRepository) Create(dto dto.CreateInput) error {
+	ve := vehicle.NewVehicle(dto.Brand, dto.Model, dto.LicensePlate, dto.Color, dto.YearOfManufacture)
+	err := ve.Validate()
+	if err != nil {
+		log.Fatal(err)
+	}
 	query := `
         INSERT INTO vehicles (brand, model, year_of_manufacture, license_plate, color)
         VALUES ($1, $2, $3, $4, $5)
     `
 	args := []interface{}{
-		vehicle.Brand,
-		vehicle.Model,
-		vehicle.YearOfManufacture,
-		vehicle.LicensePlate,
-		vehicle.Color,
+		ve.Brand,
+		ve.Model,
+		ve.YearOfManufacture,
+		ve.LicensePlate,
+		ve.Color,
 	}
-	_, err := r.db.Exec(query, args...)
+	_, err = r.db.Exec(query, args...)
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -32,19 +33,26 @@ func (r *driverRepository) GetAll() ([]dto.Output, error) {
 	return drivers, nil
 }
 
-func (r *driverRepository) Create(driver dto.CreateInput) error {
+func (r *driverRepository) Create(dto dto.CreateInput) error {
+
+	dr := driver.NewDriver(dto.Name, dto.Email, dto.TaxID, dto.DriverLicense, dto.DateOfBirth.String)
+	err := dr.Validate()
+	if err != nil {
+		log.Fatal("Error Validation Driver domain")
+	}
+
 	query := `
         INSERT INTO drivers (name, email, tax_id, driver_license, date_of_birth)
         VALUES ($1, $2, $3, $4, $5)
     `
 	args := []interface{}{
-		driver.Name,
-		driver.Email,
-		driver.TaxID,
-		driver.DriverLicense,
-		driver.DateOfBirth,
+		dr.Name,
+		dr.Email,
+		dr.TaxID,
+		dr.DriverLicense,
+		dr.DateOfBirth,
 	}
-	_, err := r.db.Exec(query, args...)
+	_, err = r.db.Exec(query, args...)
 	if err != nil {
 		return err
 	}

@@ -3,8 +3,9 @@ package vehicle
 import (
 	"database/sql"
 	"errors"
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Vehicle struct {
@@ -30,7 +31,7 @@ func NewVehicle(brand, model, licensePlate, color string, yearOfManufacture uint
 	}
 }
 
-func (v *Vehicle) validate() error {
+func (v *Vehicle) Validate() error {
 	if v.Brand == "" {
 		return errors.New("invalid brand")
 	}

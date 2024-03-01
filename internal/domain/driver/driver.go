@@ -3,8 +3,9 @@ package driver
 import (
 	"database/sql"
 	"errors"
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Driver struct {
@@ -33,7 +34,7 @@ func NewDriver(name, email, taxId, driverLicense, dateOfBirth string) *Driver {
 	}
 }
 
-func (d *Driver) validate() error {
+func (d *Driver) Validate() error {
 	if d.Name == "" {
 		return errors.New("invalid name")
 	}
