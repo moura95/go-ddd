@@ -3,8 +3,9 @@ package vehicle_router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	dto "go-ddd/internal/dtos/vehicle"
-	"go-ddd/internal/infra/util"
+	dto "github.com/moura95/go-ddd/internal/dtos/vehicle"
+	"github.com/moura95/go-ddd/internal/infra/util"
+
 	"net/http"
 )
 

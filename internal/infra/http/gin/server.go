@@ -1,14 +1,16 @@
 package gin
 
 import (
+	"time"
+
 	"github.com/axiaoxin-com/ratelimiter"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	"go-ddd/internal/infra/cfg"
+	"github.com/moura95/go-ddd/internal/infra/cfg"
+
 	"go.uber.org/zap"
-	"time"
 )
 
 type Server struct {

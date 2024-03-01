@@ -3,11 +3,10 @@ package memory
 import (
 	"database/sql"
 	"github.com/google/uuid"
-	"go-ddd/internal/aggregate"
-	"go-ddd/internal/domain/driver"
-	dto "go-ddd/internal/dtos/driver"
-	"go-ddd/internal/dtos/driver_vehicle"
-
+	"github.com/moura95/go-ddd/internal/aggregate"
+	"github.com/moura95/go-ddd/internal/domain/driver"
+	dto "github.com/moura95/go-ddd/internal/dtos/driver"
+	"github.com/moura95/go-ddd/internal/dtos/driver_vehicle"
 	"time"
 )
 

@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	_ "github.com/lib/pq"
-	"go-ddd/cmd/http"
-	"go-ddd/internal/infra/cfg"
-	"go-ddd/internal/infra/database"
+	"github.com/moura95/go-ddd/cmd/http"
+	"github.com/moura95/go-ddd/internal/infra/cfg"
+	"github.com/moura95/go-ddd/internal/infra/database"
 	"go.uber.org/zap"
 	"log"
 )

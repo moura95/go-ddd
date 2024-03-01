@@ -2,12 +2,12 @@ package vehicle
 
 import (
 	"fmt"
+
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-ddd/internal/domain/vehicle"
-	dto "go-ddd/internal/dtos/vehicle"
-
-	"go-ddd/internal/infra/cfg"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
+	dto "github.com/moura95/go-ddd/internal/dtos/vehicle"
+	"github.com/moura95/go-ddd/internal/infra/cfg"
 	"go.uber.org/zap"
 )
 

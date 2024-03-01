@@ -2,7 +2,8 @@ package vehicle_router
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-ddd/internal/service/vehicle"
+	"github.com/moura95/go-ddd/internal/service/vehicle"
+
 	"go.uber.org/zap"
 )
 

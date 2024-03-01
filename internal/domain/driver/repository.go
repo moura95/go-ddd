@@ -2,8 +2,8 @@ package driver
 
 import (
 	"github.com/google/uuid"
-	"go-ddd/internal/dtos/driver"
-	"go-ddd/internal/dtos/driver_vehicle"
+	"github.com/moura95/go-ddd/internal/dtos/driver"
+	"github.com/moura95/go-ddd/internal/dtos/driver_vehicle"
 )
 
 type IDriverRepository interface {

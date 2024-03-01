@@ -1,4 +1,4 @@
-module go-ddd
+module github.com/moura95/go-ddd
 
 go 1.20
 
@@ -13,7 +13,6 @@ require (
 	github.com/magiconair/properties v1.8.7
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.8.4
-	github.com/zhashkevych/go-sqlxmock v1.5.1
 	go.uber.org/zap v1.27.0
 )
 

@@ -1,11 +1,11 @@
 package driver_test
 
 import (
-	"go-ddd/internal/domain/driver/memory"
-	dto "go-ddd/internal/dtos/driver"
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/moura95/go-ddd/internal/domain/driver/memory"
+	dto "github.com/moura95/go-ddd/internal/dtos/driver"
 	"github.com/stretchr/testify/assert"
 )
 

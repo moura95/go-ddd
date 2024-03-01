@@ -1,11 +1,11 @@
 package vehicle
 
 import (
-	"go-ddd/internal/domain/vehicle"
-	"go-ddd/internal/domain/vehicle/memory"
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
+	"github.com/moura95/go-ddd/internal/domain/vehicle/memory"
 	"github.com/stretchr/testify/assert"
 )
 

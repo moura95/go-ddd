@@ -3,7 +3,7 @@ package database
 import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"go-ddd/internal/infra/cfg"
+	"github.com/moura95/go-ddd/internal/infra/cfg"
 )
 
 type Connection interface {

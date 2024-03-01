@@ -3,7 +3,7 @@ package aggregate
 import (
 	"database/sql"
 	"github.com/google/uuid"
-	"go-ddd/internal/domain/vehicle"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
 	"time"
 )
 

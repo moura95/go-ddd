@@ -2,8 +2,9 @@ package memory
 
 import (
 	"github.com/google/uuid"
-	"go-ddd/internal/aggregate"
-	"go-ddd/internal/domain/vehicle"
+	"github.com/moura95/go-ddd/internal/aggregate"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
+
 	"time"
 )
 

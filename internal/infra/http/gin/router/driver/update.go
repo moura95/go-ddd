@@ -2,11 +2,12 @@ package driver_router
 
 import (
 	"database/sql"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"go-ddd/internal/dtos/driver"
-	"go-ddd/internal/infra/util"
-	"net/http"
+	"github.com/moura95/go-ddd/internal/dtos/driver"
+	"github.com/moura95/go-ddd/internal/infra/util"
 )
 
 func (d *Driver) update(ctx *gin.Context) {

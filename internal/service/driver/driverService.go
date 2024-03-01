@@ -2,13 +2,15 @@ package driver
 
 import (
 	"fmt"
+
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-ddd/internal/aggregate"
-	"go-ddd/internal/domain/driver"
-	driver_dto "go-ddd/internal/dtos/driver"
-	"go-ddd/internal/dtos/driver_vehicle"
-	"go-ddd/internal/infra/cfg"
+	"github.com/moura95/go-ddd/internal/aggregate"
+	"github.com/moura95/go-ddd/internal/domain/driver"
+	driver_dto "github.com/moura95/go-ddd/internal/dtos/driver"
+	"github.com/moura95/go-ddd/internal/dtos/driver_vehicle"
+	"github.com/moura95/go-ddd/internal/infra/cfg"
+
 	"go.uber.org/zap"
 )
 

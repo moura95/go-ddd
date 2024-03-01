@@ -1,16 +1,16 @@
 package gin
 
 import (
-	driverpostgres "go-ddd/internal/domain/driver/postgres"
-	vehiclepostgres "go-ddd/internal/domain/vehicle/postgres"
-	driverrouter "go-ddd/internal/infra/http/gin/router/driver"
-	vehiclerouter "go-ddd/internal/infra/http/gin/router/vehicle"
-	"go-ddd/internal/service/driver"
-	"go-ddd/internal/service/vehicle"
-	"go.uber.org/zap"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	driverpostgres "github.com/moura95/go-ddd/internal/domain/driver/postgres"
+	vehiclepostgres "github.com/moura95/go-ddd/internal/domain/vehicle/postgres"
+	driverrouter "github.com/moura95/go-ddd/internal/infra/http/gin/router/driver"
+	vehiclerouter "github.com/moura95/go-ddd/internal/infra/http/gin/router/vehicle"
+	"github.com/moura95/go-ddd/internal/service/driver"
+	"github.com/moura95/go-ddd/internal/service/vehicle"
+	"go.uber.org/zap"
 )
 
 func (s *Server) createRoutesV1(router *gin.Engine, log *zap.SugaredLogger) {

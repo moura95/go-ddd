@@ -2,9 +2,10 @@ package driver_vehicle
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
-	"go-ddd/internal/domain/vehicle"
 	"time"
+
+	"github.com/google/uuid"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
 )
 
 type Input struct {

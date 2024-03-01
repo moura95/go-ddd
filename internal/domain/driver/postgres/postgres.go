@@ -3,14 +3,15 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-ddd/internal/domain/driver"
-	"go-ddd/internal/domain/vehicle"
-	dto "go-ddd/internal/dtos/driver"
-	"go-ddd/internal/dtos/driver_vehicle"
+	"github.com/moura95/go-ddd/internal/domain/driver"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
+	dto "github.com/moura95/go-ddd/internal/dtos/driver"
+	"github.com/moura95/go-ddd/internal/dtos/driver_vehicle"
 	"go.uber.org/zap"
-	"time"
 )
 
 type driverRepository struct {

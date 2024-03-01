@@ -2,7 +2,7 @@ package vehicle
 
 import (
 	"github.com/google/uuid"
-	"go-ddd/internal/dtos/vehicle"
+	"github.com/moura95/go-ddd/internal/dtos/vehicle"
 )
 
 type IVehicleRepository interface {

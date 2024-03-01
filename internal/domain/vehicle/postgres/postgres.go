@@ -3,12 +3,13 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
-	"go-ddd/internal/domain/vehicle"
-	dto "go-ddd/internal/dtos/vehicle"
+	"github.com/moura95/go-ddd/internal/domain/vehicle"
+	dto "github.com/moura95/go-ddd/internal/dtos/vehicle"
 	"go.uber.org/zap"
-	"time"
 )
 
 type vehicleRepository struct {
